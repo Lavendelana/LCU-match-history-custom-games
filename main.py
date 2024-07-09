@@ -6,7 +6,7 @@ import datetime
 import config
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-def run_data(gameDetails, participantId, writeToExcel):
+def run_data(gameDetails, participantId):
   gameData = GameData(gameData=gameDetails, teamData=gameDetails['teams'][0 if participantId < 6 else 1])
   patchData = gameDetails['gameVersion'].split('.')
   patchString = f'{patchData[0]}.{patchData[1]}.1'
@@ -15,8 +15,6 @@ def run_data(gameDetails, participantId, writeToExcel):
     participantData = gameDetails['participants'][index]
     participantObj = Participant(summonerName=participantName, participantData=participantData, patch=patchString)
     gameData.add_participant(participantObj)
-  if writeToExcel:
-    gameData.write_to_excel()
   return gameData
 
 summoner = get_summoner_info()
@@ -40,9 +38,9 @@ for game in games:
         gameDate = datetime.datetime.strptime(gameDetails['gameCreationDate'][:10], '%Y-%m-%d')
         compareDate = datetime.datetime.strptime(config.DATE, '%Y-%m-%d')
         if (gameDate == compareDate):
-          writeGames.append(run_data(gameDetails, participantId, False))
+          writeGames.append(run_data(gameDetails, participantId))
       else:
-        run_data(gameDetails, participantId, True)
+        writeGames.append(run_data(gameDetails, participantId))
 if len(writeGames) > 0:
   # Write from bottom to top
   for index in range(0, len(writeGames)):
