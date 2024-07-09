@@ -53,6 +53,6 @@ def get_champion_name(championId, patch):
       print(f'Error getting champion data: {ex}')
       return None
     for key in championData['data']:
-      championId = int(championData['data'][key]['key'])
-      championsList[championId] = key
+      newChampionId = int(championData['data'][key]['key'])
+      championsList[newChampionId] = key
   return championsList[championId]

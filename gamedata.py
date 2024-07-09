@@ -35,7 +35,7 @@ class GameData:
     self.win = 'Yes' if teamData['win'] == 'Win' else 'No'
     self.gameDate = gameData['gameCreationDate']
     gameDurationTime = gameData['gameDuration']
-    self.gameDuration = f'{math.floor(gameDurationTime / 60)}:{gameDurationTime % 60}'
+    self.gameDuration = f'{math.floor(gameDurationTime / 60):02d}:{(gameDurationTime % 60):02d}'
   
   def add_participant(self, participant):
     self.participants.append(participant)
@@ -53,7 +53,7 @@ class GameData:
       worksheet = workbook.active
       # Create the top row after creating a new sheet
       topRow = ["Scrims", "Players", "Kills", "Deaths", "Assists", "Damage dealt to champs", "Firstblood", "Gold", "CS", "Vision Score", "Wards Placed", 
-                "Wards Destroyed", "Control Wards", "Crowd Control", "Champion", "Win?", "Towers", "Inhibitors", "Drakes", "Heralds", "Barons", "Voidgrubs", "Match Length"]
+                "Wards Destroyed", "Control Wards", "Crowd Control", "Champion", "Win?", "Towers", "Inhibitors", "Drakes", "Elder drakes", "Heralds", "Barons", "Voidgrubs", "Match Length"]
       worksheet.append(topRow)
       # Set column widths
       column_letters = tuple(openpyxl.utils.get_column_letter(col_number + 1) for col_number in range(worksheet.max_column))
@@ -70,7 +70,7 @@ class GameData:
       newRow = [self.gameDate, player.summonerName, player.kills, player.deaths, player.assists, player.totalDamageDealtToChampions, player.firstBloodKill, player.goldEarned, 
                 player.creepScore, player.visionScore, player.wardsPlaced, player.wardsKilled, player.controlWards, player.controlScore, player.championName]
       if (index == 0):
-        newRow += [self.win, self.towerKills, self.inhibitorKills, self.dragonKills, self.riftHeraldKills, self.baronKills, self.voidGrubKills, self.gameDuration]
+        newRow += [self.win, self.towerKills, self.inhibitorKills, self.dragonKills, '', self.riftHeraldKills, self.baronKills, self.voidGrubKills, self.gameDuration]
       worksheet.append(newRow)
     
     workbook.save(pathToSheet)

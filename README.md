@@ -18,3 +18,4 @@ Paste the values in the `config.py`\
 2. Password in USERNAME_PASSWORD after the `:`\
 
 Run the program with Python: `py main.py`\
+The excel sheet will be written to `./output/data.xlsx`
